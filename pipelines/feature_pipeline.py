@@ -30,12 +30,12 @@ logger.info(f"Current date and time (EST): {current_date}")
 
 # Step 2: Define the data fetching range
 fetch_data_to = current_date
-fetch_data_from = current_date - timedelta(days=28)
+fetch_data_from = current_date - timedelta(days=365)
 logger.info(f"Fetching data from {fetch_data_from} to {fetch_data_to}")
 
 # Step 3: Fetch raw data
 logger.info("Fetching raw data...")
-rides = fetch_batch_raw_data(fetch_data_from, fetch_data_to)
+rides = fetch_batch_raw_data_full(fetch_data_from, fetch_data_to)
 logger.info(f"Raw data fetched. Number of records: {len(rides)}")
 
 # Step 4: Transform raw data into time-series data

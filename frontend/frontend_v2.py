@@ -9,8 +9,10 @@ import requests
 import streamlit as st
 from branca.colormap import LinearColormap
 from streamlit_folium import st_folium
+
 parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)
+
 from src.config import DATA_DIR
 from src.inference import fetch_next_hour_predictions, load_batch_of_features_from_store
 from src.plot_utils import plot_prediction
@@ -51,7 +53,7 @@ def create_citibike_map(shapefile_gdf, prediction_data):
     gdf = shapefile_gdf.copy()
     gdf = gdf.merge(
         prediction_data[["pickup_location_id", "predicted_demand"]],
-        left_on="stationid",   # adjust based on JC shape file column
+        left_on="stationid",  # adjust based on JC shape file column
         right_on="pickup_location_id",
         how="left"
     )
@@ -138,10 +140,17 @@ top10 = predictions.sort_values("predicted_demand", ascending=False).head(10)
 st.dataframe(top10[["pickup_location_id", "predicted_demand"]])
 
 # ------------------ Dropdown + Plot ------------------
+st.subheader("Prediction Trend for Selected Station")
 selected_id = st.selectbox("Select Station ID", predictions["pickup_location_id"].unique())
 
-fig = plot_prediction(
-    features=features[features["pickup_location_id"] == selected_id],
-    prediction=predictions[predictions["pickup_location_id"] == selected_id],
-)
-st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+filtered_features = features[features["pickup_location_id"] == selected_id]
+filtered_predictions = predictions[predictions["pickup_location_id"] == selected_id]
+
+if not filtered_features.empty and not filtered_predictions.empty:
+    fig = plot_prediction(
+        features=filtered_features,
+        prediction=filtered_predictions,
+    )
+    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+else:
+    st.warning("No data available for the selected station.")
