@@ -10,7 +10,6 @@ import streamlit as st
 from branca.colormap import LinearColormap
 from streamlit_folium import st_folium
 
-
 parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)
 
