@@ -2,7 +2,10 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import streamlit as st
 
+HOPSWORKS_PROJECT_NAME = st.secrets["HOPSWORKS_PROJECT_NAME"]
+HOPSWORKS_API_KEY = st.secrets["HOPSWORKS_API_KEY"]
 load_dotenv()
 
 # Define directories
