@@ -9,6 +9,10 @@ import requests
 import streamlit as st
 from branca.colormap import LinearColormap
 from streamlit_folium import st_folium
+import warnings
+from getpass import GetPassWarning
+warnings.filterwarnings("ignore", category=GetPassWarning)
+
 
 parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)
